@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,6 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import br.com.guess.Guess;
+import br.com.user.User;
 import lombok.Data;
 
 @Entity
@@ -27,22 +30,22 @@ public class Game {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
 	@OneToMany(mappedBy = "game")
 	private Set<Guess> guess;
 
 	@CreationTimestamp
-	@Temporal(TemporalType.TIME)
 	private LocalDate createdDate;
 
 	@UpdateTimestamp
-	@Temporal(TemporalType.TIME)
 	private LocalDate modifiedDate;
 
 	@Transient
 	private Long gameDuration;
-
-	private Calendar teste;
 
 	public long getGameDuration() {
 		return Duration.between(modifiedDate, createdDate).getSeconds();
