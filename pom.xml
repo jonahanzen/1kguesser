@@ -14,9 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>1kguesser</name>
 	<description>1k Guesser Challenge</description>
-	<properties>
-		<java.version>16</java.version>
-	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

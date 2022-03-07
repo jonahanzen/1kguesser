@@ -12,7 +12,7 @@ public class UserNotFoundException extends ApiException {
 	private static final long serialVersionUID = -1157903925621804928L;
 
 	public UserNotFoundException(Long userId) {
-		super("The User with Id: " + userId + "does not exist.");
+		super("The User with Id: " + userId + " does not exist.");
 	}
 	
 	

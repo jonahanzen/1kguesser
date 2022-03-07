@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.game.Game;
 import lombok.Data;
 
@@ -20,6 +22,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
 	
 	@Column(nullable = false, unique = true)
@@ -27,5 +30,6 @@ public class User {
 	private String name;
 
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private Set<Game> game = new HashSet<>();
 }
