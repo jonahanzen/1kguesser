@@ -39,24 +39,31 @@
 	<h1 class="m-4" id="guess"></h1>
 	
 	<label for="rightButton">Click in the button below if i found your number</label>
-	<button type="button" class="m-3 form-control btn btn-info btn-sm btn-block">THAT IS MY NUMBER!</button>
+	<button id="rightButton" type="button" class="m-3 form-control btn btn-info btn-sm btn-block">THAT IS MY NUMBER!</button>
 	
 	<label for="higherButton">Click in the button below if your number is higher than the guess</label>
-	<button type="button" class="m-3 form-control btn btn-primary btn-sm btn-block">Higher Number</button>
+	<button id="higherButton" type="button" class="m-3 form-control btn btn-primary btn-sm btn-block">Higher Number</button>
 	
 	<label for="lowerButton">Click in the button below if your number is lower than the guess</label>
-	<button type="button" class="m-3 form-control btn btn-success btn-sm btn-block">Lower Number</button>
+	<button id="lowerButton" type="button" class="m-3 form-control btn btn-success btn-sm btn-block">Lower Number</button>
 	
-	<label class="m-3" for="numberOfGuessesText">Number of guesses:</label>
-	<h3 id="numberOfGuessesText">0</h3>
-	<h3 id="gameTimeElapsed">Time Elapsed: </h3>
-
+	
     </div>
 
 </div>
 
-<div class="col">
+<div class="col-4">
+
+<div id="guessesDiv" class="text-center">
+
+<label class="m-3" for "guessesText">Guesses</label>
+<h5 class="text-break" id="guessesText"></h5>
+
+<label class="m-3" for="numberOfGuessesText">Number of guesses:</label>
+	<h3 id="numberOfGuessesText">0</h3>
+	<h3 id="gameTimeElapsed">Time Elapsed: </h3>
    
+   </div>
 </div>
 
 </div>
@@ -73,17 +80,31 @@ const gameApiUrl = "http://localhost:8080/api/game/";
 var numberOfGuesses = 0;
 var minGuess = 1;
 var maxGuess = 1000;
+var guesses = [];
+var gameId = null;
 
 
-	//Will hide the Game DIV after the page is loaded
+	//Will hide the Game and Guess DIV after the page is loaded
 	$( document ).ready(function() {
 	$('#gameDiv').hide();
+	$('#guessesDiv').hide();
 });
 
 $( "#gameStartButton" ).click(function() {
 gameTimer();
 startGuessingGame();
 });
+
+
+//Function to refresh the guesses div
+$(document).ready(
+ function() {
+ setInterval(function() {
+  $('#guessesText').text(guesses);
+ }, 500);  
+});
+
+
 
 
 
@@ -98,10 +119,12 @@ startGuessingGame();
             userNameButton.innerHTML = "Logout";
             $('#userNameInput').prop('disabled', true);
             $('#gameDiv').show();
+			$('#guessesDiv').show();
         } else {
             userNameButton.innerHTML = "Start";
             $('#userNameInput').prop('disabled', false);
             $('#gameDiv').hide();
+			$('#guessesDiv').hide();
             userNameInput.value = "";
         }
     
@@ -124,31 +147,45 @@ numberOfGuesses = 0;
 minGuess = 1;
 maxGuess = 1000;
 guessNumber = getRandomIntInclusive(minGuess, maxGuess);
+guesses.push(guessNumber);
 document.getElementById("guess").innerHTML = guessNumber;
 numberOfGuesses++;
 }
 
-function higherGuess() {
+//Function to generate a guess higher than the one before using the minGuess var
+$('#higherButton').click(function(event) {
 minGuess = document.getElementById("guess").innerHTML;
+let nextGuess = getRandomIntInclusive(minGuess, maxGuess);
+guesses.push(nextGuess);
+document.getElementById("guess").innerHTML = nextGuess;
 numberOfGuesses++;
-}
+});
 
-function lowerGuess() {
+//Function to generate a guess lower than the one before using the minGuess var
+$('#lowerButton').click(function(event) {
 maxGuess = document.getElementById("guess").innerHTML;
+let nextGuess = getRandomIntInclusive(minGuess, maxGuess);
+guesses.push(nextGuess);
+document.getElementById("guess").innerHTML = nextGuess;
 numberOfGuesses++;
-}
+});
 
+/*
+//TODO Remove?
 function guessNumber() {
 let number = getRandomIntInclusive(minGuess, maxGuess);
 document.getElementById("guess").innerHTML = number;
 numberOfGuesses++;
 } 
+*/
 
 
 //Update how many guesses were made after each click
 $(document).click(function(event) {
         $("#numberOfGuessesText").text(numberOfGuesses);
 });
+
+
 
 
 
@@ -177,16 +214,34 @@ function getAllUsers() {
 });
 }
 
-//function that gets the UserName value 
+//function that gets the UserName Id value 
 function newGame() {
 let userName = document.getElementById("userNameInput").value;
 
-$.ajax({
+let newGameRequest = $.ajax({
     type: "POST",
     url: gameApiUrl + userName
 });
+newGameRequest.done(function(msg) {
+gameId = msg.id;
+});
 }
 
+//Function that will make a PUT request to send the guesses to the given game
+function gameFinished() {
+
+let gameData = $.ajax({
+	type: "POST",
+	url: gameApiUrl + gameId + "/guess",
+	data: JSON.stringify(guesses),
+	contentType: "application/json",
+	});
+	console.log(gameData);
+}
+
+//Function that starts a timer for the game.
+//It has no further implementation as both creation and updated dates of games 
+//Are saved in the database.
 function gameTimer() {
 window.setInterval((function(){
    var start = Date.now();
@@ -198,20 +253,6 @@ window.setInterval((function(){
    }()), 1000);
 
 
-}
-
-// Entity Models to be able to work with data and presentation
- class Guess {
-guess;
-constructor(...guess) {
-this.guess = guess
-}
-}
-
-class Game {
-id;
-guess;
-constructor() {}
 }
 
 </script>  

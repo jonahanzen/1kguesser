@@ -40,8 +40,8 @@ public class GameController {
 		return gameService.newGame(userName);
 	}
 
-	@PutMapping("{gameId}")
-	public void updateGame(@PathVariable Long gameId, @RequestBody List<Guess> guess) throws GameNotFoundException {
+	@PostMapping("{gameId}/guess")
+	public void updateGame(@PathVariable Long gameId, @RequestBody List<Integer> guess) throws GameNotFoundException {
 		gameService.updateGame(gameId, guess);
 	}
 

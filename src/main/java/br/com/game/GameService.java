@@ -58,15 +58,18 @@ public class GameService {
 	}
 
 	//TODO this method is to be used to mark the game as finished
-	public void updateGame(Long gameId, List<Guess> guess) throws GameNotFoundException {
+	public void updateGame(Long gameId, List<Integer> guesses) throws GameNotFoundException {
 		if (!gameRepository.existsById(gameId)) {
 			throw new GameNotFoundException(gameId);
 		}
 		Game game = gameRepository.findById(gameId).get();
-		guess.forEach( guessGameId -> guessGameId.setGame(game));
-		guessService.newGuessList(guess);
+		guesses.forEach( guessNumber ->  {
+			Guess guess = new Guess();
+			guess.setGame(game);
+			guess.setGuess(guessNumber);
+			guessService.newGuess(guess);
+		});
 		
-		game.setGuess(guess);
 		gameRepository.save(game);
 	}
 

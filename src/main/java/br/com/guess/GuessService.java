@@ -15,5 +15,9 @@ public class GuessService {
 	public void newGuessList(List<Guess> guesses) {
 		guessRepository.saveAll(guesses);
 	}
+	
+	public void newGuess(Guess guess) {
+		guessRepository.save(guess);
+	}
 
 }
