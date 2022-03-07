@@ -73,10 +73,12 @@
   
 <script>
 // URL Mappings
+//In an ideal world, this would never be public of course
 const apiUrl = "http://localhost:8080/api/";
 const userApiUrl = "http://localhost:8080/api/user/";
 const gameApiUrl = "http://localhost:8080/api/game/";
 
+//"Global variables" for controlling and retrieve data
 var numberOfGuesses = 0;
 var minGuess = 1;
 var maxGuess = 1000;
@@ -90,6 +92,8 @@ var gameId = null;
 	$('#guessesDiv').hide();
 });
 
+//It starts a game after clicking the button
+//It will start the timer and give you an initial guess number
 $( "#gameStartButton" ).click(function() {
 gameTimer();
 startGuessingGame();
@@ -103,9 +107,6 @@ $(document).ready(
   $('#guessesText').text(guesses);
  }, 500);  
 });
-
-
-
 
 
     //On click the username button, it will get the value from the input, and switch the button innerHtml to 'Logout' or 'Start' 
@@ -142,6 +143,7 @@ $(document).ready(
 });
 }
 
+//It sets the default numbers of the game and gives an initial guess in the 'guess' element
 function startGuessingGame() {
 numberOfGuesses = 0;
 minGuess = 1;
@@ -170,23 +172,11 @@ document.getElementById("guess").innerHTML = nextGuess;
 numberOfGuesses++;
 });
 
-/*
-//TODO Remove?
-function guessNumber() {
-let number = getRandomIntInclusive(minGuess, maxGuess);
-document.getElementById("guess").innerHTML = number;
-numberOfGuesses++;
-} 
-*/
-
 
 //Update how many guesses were made after each click
 $(document).click(function(event) {
         $("#numberOfGuessesText").text(numberOfGuesses);
 });
-
-
-
 
 
 
@@ -197,22 +187,6 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min); 
 }
 
-
-//TODO remove?
-//This function makes a post via Ajax to retrieve all users from the database
-function getAllUsers() {
-    $.getJSON( userApiUrl, function( data ) {
-  var items = [];
-  $.each( data, function( key, val ) {
-    items.push( "<li id='" + key + "'>" + val + "</li>" );
-  });
- 
-  $( "<ul/>", {
-    "class": "my-new-list",
-    html: items.join( "" )
-  }).appendTo( "body" );
-});
-}
 
 //function that gets the UserName Id value 
 function newGame() {
