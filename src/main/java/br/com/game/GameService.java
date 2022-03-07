@@ -32,14 +32,14 @@ public class GameService {
 	/**
 	 * Method to create a new Game
 	 * It will insert a new Game in the database
-	 * The game must have a User Id
+	 * The game must have a User
 	 * 
-	 * @param userId of the Game
+	 * @param userName of the Game
 	 * @return the created Game
 	 * @throws UserNotFoundException 
 	 */
-	public Game newGame(Long userId) throws UserNotFoundException {
-		User user = userService.getUserById(userId);
+	public Game newGame(String userName) throws UserNotFoundException {
+		User user = userService.getUserByName(userName);
 		Game game = new Game();
 		game.setUser(user);
 		return gameRepository.save(game);

@@ -15,6 +15,10 @@ public class UserNotFoundException extends ApiException {
 		super("The User with Id: " + userId + " does not exist.");
 	}
 	
+	public UserNotFoundException(String name) {
+		super("The User with Name: " + name + " does not exist.");
+	}
+	
 	
 
 }

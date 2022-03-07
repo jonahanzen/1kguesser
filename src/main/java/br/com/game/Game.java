@@ -1,10 +1,7 @@
 package br.com.game;
 
-import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,7 +24,6 @@ import lombok.Data;
 @Data
 public class Game {
 
-	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -49,11 +44,5 @@ public class Game {
 	@JsonIgnore
 	@UpdateTimestamp
 	private LocalDateTime modifiedDate;
-	
-	//TODO implement a status to control the last modified date of the game
-	// And to be able to query only finished games
-	// 'in progress' , 'finished'
-
-	
 
 }

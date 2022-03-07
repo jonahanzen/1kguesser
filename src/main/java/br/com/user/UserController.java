@@ -32,10 +32,16 @@ public class UserController {
 	public User getUserById(@PathVariable Long userId) throws UserNotFoundException {
 		return userService.getUserById(userId);
 	}
+	
 
 	@PostMapping
-	public User newUser(@RequestBody @Valid User user) {
+	public User newUserBody(@RequestBody @Valid User user) {
 		return userService.newUser(user);
+	}
+	
+	@PostMapping("{userName}")
+	public User newUserPath(@PathVariable String userName) {
+		return userService.newUserByName(userName);
 	}
 
 	@PutMapping

@@ -1,9 +1,6 @@
 package br.com.game;
 
 import java.util.List;
-import java.util.Set;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,11 +33,11 @@ public class GameController {
 		return gameService.getGameById(gameId);
 	}
 
-	//TODO use this mapping to update game status (?)
-	//TODO Post a list of guesses after the game is finished
-	@PostMapping("{userId}")
-	public Game newGame(@PathVariable Long userId) throws UserNotFoundException {
-		return gameService.newGame(userId);
+	// TODO use this mapping to update game status (?)
+	// TODO Post a list of guesses after the game is finished
+	@PostMapping("{userName}")
+	public Game newGame(@PathVariable String userName) throws UserNotFoundException {
+		return gameService.newGame(userName);
 	}
 
 	@PutMapping("{gameId}")

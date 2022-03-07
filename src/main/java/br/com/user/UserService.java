@@ -19,6 +19,12 @@ public class UserService {
 	public User newUser(@Valid User user) {
 		return userRepository.save(user);
 	}
+	
+	public User newUserByName(String userName) {
+		User user = new User();
+		user.setName(userName);
+		return userRepository.save(user);
+	}
 
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
@@ -30,6 +36,10 @@ public class UserService {
 
 	public User getUserByGameId(Long gameId) throws GameOrUserNotFoundException {
 		return userRepository.findByGameId(gameId).orElseThrow(() -> new GameOrUserNotFoundException(gameId));
+	}
+	
+	public User getUserByName(String name) throws UserNotFoundException {
+		return userRepository.findByName(name).orElseThrow(() -> new UserNotFoundException(name));
 	}
 
 	public void updateUser(User user) throws UserNotFoundException {
