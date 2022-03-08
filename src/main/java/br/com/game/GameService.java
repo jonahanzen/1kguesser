@@ -1,5 +1,8 @@
 package br.com.game;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -58,18 +61,24 @@ public class GameService {
 	}
 
 	//TODO this method is to be used to mark the game as finished
+	//TODO this method could use a modelMapper and a better JSON polishing
 	public void updateGame(Long gameId, List<Integer> guesses) throws GameNotFoundException {
 		if (!gameRepository.existsById(gameId)) {
 			throw new GameNotFoundException(gameId);
 		}
+		List<Guess> guessList = new ArrayList<>();
 		Game game = gameRepository.findById(gameId).get();
-		guesses.forEach( guessNumber ->  {
+		for (int guessNumber : guesses) {
 			Guess guess = new Guess();
 			guess.setGame(game);
 			guess.setGuess(guessNumber);
 			guessService.newGuess(guess);
-		});
-		
+			guessList.add(guess);
+		}
+		game.setGuess(guessList);
+		Long gameDuration = ChronoUnit.SECONDS.between(game.getCreatedDate(), LocalDateTime.now());
+		game.setTotalGameDuration(gameDuration);
+//		gameRepository.updateGameDurationByGameId(gameId, gameDuration);
 		gameRepository.save(game);
 	}
 

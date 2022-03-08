@@ -43,6 +43,7 @@ public class GameController {
 	@PostMapping("{gameId}/guess")
 	public void updateGame(@PathVariable Long gameId, @RequestBody List<Integer> guess) throws GameNotFoundException {
 		gameService.updateGame(gameId, guess);
+		
 	}
 
 	@DeleteMapping("{gameId}")

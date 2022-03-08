@@ -1,6 +1,9 @@
 package br.com.game;
 
+import java.beans.Transient;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,8 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PostUpdate;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,9 +38,8 @@ public class Game {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "game")
-	private List<Guess> guess;
+	private List<Guess> guess = new ArrayList<>();
 
 	@JsonIgnore
 	@CreationTimestamp
@@ -45,4 +49,7 @@ public class Game {
 	@UpdateTimestamp
 	private LocalDateTime modifiedDate;
 
+	private Long totalGameDuration;
+	
+	
 }

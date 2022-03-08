@@ -1,6 +1,8 @@
 package br.com.user;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -30,5 +32,5 @@ public class User {
 
 	@OneToMany(mappedBy = "user")
 	@JsonIgnore
-	private Set<Game> game = new HashSet<>();
+	private List<Game> game = new ArrayList<>();
 }

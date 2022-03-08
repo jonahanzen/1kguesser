@@ -100,7 +100,7 @@ startGuessingGame();
 });
 
 
-$( "#rightButton" ).click(function() {
+${ "#rightButton" ).click(function() {
 gameFinished();
 });
 

@@ -1,5 +1,6 @@
 package br.com.ranking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.game.Game;
@@ -11,8 +12,7 @@ public class Ranking {
 	
 	//TODO finish idea of implementation
 	
-	private List<User> users;
+	private List<User> users = new ArrayList<>();
 	
-	private List<Game> games;
 
 }
