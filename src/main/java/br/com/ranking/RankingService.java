@@ -26,7 +26,7 @@ public class RankingService {
 	 * It will sort Games by the size of the Guess List and then
 	 * It will sort by the Total duration of the game
 	 * The service will retrieve all games and implement two comparators
-	 * @return
+	 * @return the list of games after comparing them
 	 */
 	public List<Game> getRanking() {
 		
